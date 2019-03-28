@@ -4,17 +4,11 @@ import { reducer as notifications } from 'react-notification-system-redux';
 
 import initialState from '../config/initialState.config';
 
-import { userReducer } from './user';
-import { authReducer } from './auth';
-import { inspectionReducer } from './inspection';
-import { miscReducer } from './misc';
+import { productReducer } from './product';
 
 
 const appReducer = combineReducers({
-	user: userReducer,
-	auth: authReducer,
-	inspections: inspectionReducer,
-	misc: miscReducer,
+	products: productReducer,
 	notifications,
 });
 

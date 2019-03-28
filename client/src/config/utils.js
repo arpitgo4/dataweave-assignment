@@ -44,14 +44,6 @@ export const string_sorter = (a, b) => {
     return 0;
 };
 
-export const isAdminAuthorized = (admin, authority) => {
-    if (!admin || !admin.authorities)
-        return false;
-        
-    const { authorities } = admin;
-    return authorities.some(auth => auth === authority);
-};
-
 export const parseDateToTimeStamp = strDate => {
     const date = Date.parse(strDate);
     return date/1000;
@@ -78,36 +70,6 @@ export const convertObjectToArray = obj => {
     }, []);
 };
 
-export const jsonToCSV = (keys, data) => {
-    const headers = keys.map(k => k.title).join(',') + '\n';
-    
-    const headers_table = keys.reduce((acc, k) => {
-        const { dataIndex } = k;
-        acc[dataIndex] = k.render;
-        return acc;
-    }, {});
-
-    if (!Array.isArray(data))
-        data = convertObjectToArray(data);
-
-    return data.reduce((acc, dataObj) => {
-
-        const data_str = Object.keys(headers_table)
-            .reduce((_acc, dataIndex) => {
-                const _value = getValueFromObject(dataObj, dataIndex);
-                const _render = headers_table[dataIndex];
-
-                if (_render)
-                    _acc.push(_render(_value));
-                else _acc.push(_value);
-
-                return _acc;
-            }, [])
-            .join(',') + '\n';
-
-        return acc + data_str;
-    }, headers);
-};
 
 const getValueFromObject = (object, key) => {
     const keys = key.split('.');
@@ -116,16 +78,3 @@ const getValueFromObject = (object, key) => {
         return acc[k];
     }, object);
 };
-
-export const downloadFile = (filename, text) => {
-    const element = document.createElement('a');
-    element.setAttribute('href', 'data:text/plain;charset=utf-8,' + encodeURIComponent(text));
-    element.setAttribute('download', filename);
-
-    element.style.display = 'none';
-    document.body.appendChild(element);
-
-    element.click();
-
-    document.body.removeChild(element);
-}

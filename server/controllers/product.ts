@@ -25,7 +25,7 @@ export const getAllProducts = (offset: number, limit: number, title?: string, sk
             return Promise.reject({ message: `price range format is invalid` });
     }
 
-    const query: any = { where: {}, offset, limit };
+    const query: any = { where: {}, offset: (offset || 0), limit };
 
     if (title)
         query.where.title = { [Sequelize.Op.like]: `${title}` };
