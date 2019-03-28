@@ -105,6 +105,8 @@ Refer to the docker-compose.yml script for detailed information.
 ```
 ## Postman api collection
 
+https://documenter.getpostman.com/view/401954/S17uunKr
+
 ```
 
 

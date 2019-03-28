@@ -6,17 +6,9 @@
  * response back.
  */
 
-import authRouter from './auth';
-import userRouter from './user';
-import msgRouter from './message';
-import groupRouter from './group';
-import integrationRouter from './integration';
+import productRouter from './product';
 
 
 export {
-    authRouter,
-    userRouter,
-    msgRouter,
-    groupRouter,
-    integrationRouter,
+    productRouter,
 };

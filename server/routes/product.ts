@@ -3,24 +3,26 @@
 import { Router, NextFunction, Response } from 'express';
 import { JWTRequest, CustomError } from 'Interfaces';
 
-import { userCtrl, } from '../controllers';
-import { IUserModel, IAddressModel, IApiKeyModel, IApiKeyIpModel } from 'Models';
+import { productCtrl, } from '../controllers';
+import { IProductModel, } from 'Models';
 
 
 const router = Router();
 
 
 router.get('/', (req: JWTRequest, res: Response, next: NextFunction) => {
-    const { email } = req.user;
+    const { offset, limit, } = req.query;
 
-    userCtrl.findUser(email)
-    .then((user: IUserModel) => {
+    productCtrl.getAllProducts(Number(offset), Number(limit))
+    .then((products: Array<IProductModel>) => {
         res.status(200).json({
-            data: {
-                type: user,
-                id: user.username,
-                attributes: user,
-            }
+            data: products.map(product => {
+                return {
+                    type: 'product',
+                    id: product.urlh,
+                    attributes: product,
+                };
+            })
         });
     })
     .catch((err: CustomError) => next(err));
@@ -30,7 +32,7 @@ router.put('/delivery-url', (req: JWTRequest, res: Response, next: NextFunction)
     const { id: user_id } = req.user;
     const { delivery_url } = req.body.data.attributes;
 
-    userCtrl.updateUserDeliveryUrl(user_id, delivery_url)
+    productCtrl.updateUserDeliveryUrl(user_id, delivery_url)
     .then((user: IUserModel) => {
         res.status(200).json({
             data: {
@@ -47,7 +49,7 @@ router.put('/delivery-url', (req: JWTRequest, res: Response, next: NextFunction)
 router.get('/address', (req: JWTRequest, res: Response, next: NextFunction) => {
     const { id } = req.user;
 
-    return userCtrl.getUserAddress(id)
+    return productCtrl.getUserAddress(id)
     .then((address: IAddressModel) => {
         res.status(200).json({
             data: {
@@ -65,7 +67,7 @@ router.get('/address', (req: JWTRequest, res: Response, next: NextFunction) => {
 router.get('/api-key', (req: JWTRequest, res: Response, next: NextFunction) => {
     const { id: user_id } = req.user;
 
-    return userCtrl.getApiKeys(user_id)
+    return productCtrl.getApiKeys(user_id)
     .then((api_keys: Array<IApiKeyModel>) => {
         res.status(200).json({
             data: api_keys.map(key => {
@@ -83,7 +85,7 @@ router.get('/api-key', (req: JWTRequest, res: Response, next: NextFunction) => {
 router.post('/api-key', (req: JWTRequest, res: Response, next: NextFunction) => {
     const { id: user_id } = req.user;
 
-    return userCtrl.createApiKey(user_id)
+    return productCtrl.createApiKey(user_id)
     .then((api_key: IApiKeyModel) => {
         res.status(200).json({
             data: {
@@ -101,7 +103,7 @@ router.put('/api-key', (req: JWTRequest, res: Response, next: NextFunction) => {
     const { id: user_id } = req.user;
     const { api_key, active, } = req.body.data.attributes;
 
-    return userCtrl.updateApiKey(user_id, api_key, active)
+    return productCtrl.updateApiKey(user_id, api_key, active)
     .then((api_keys: Array<IApiKeyModel>) => {
         res.status(200).json({
             data: api_keys.map(key => {
@@ -121,7 +123,7 @@ router.delete('/api-key', (req: JWTRequest, res: Response, next: NextFunction) =
     const { id: user_id } = req.user;
     const { api_key, } = req.body.data.attributes;
 
-    return userCtrl.deleteApiKey(user_id, api_key)
+    return productCtrl.deleteApiKey(user_id, api_key)
     .then((api_key: IApiKeyModel) => {
         res.status(200).json({
             data: {
@@ -138,7 +140,7 @@ router.get('/api-key/ip/:api_key_id', (req: JWTRequest, res: Response, next: Nex
     const { id: user_id } = req.user;
     const { api_key_id, } = req.params;
 
-    return userCtrl.getIpAddressesForApiKey(user_id, api_key_id)
+    return productCtrl.getIpAddressesForApiKey(user_id, api_key_id)
     .then((api_key_ips: Array<IApiKeyIpModel>) => {
         res.status(200).json({
             data: api_key_ips.map(ip => {
@@ -157,7 +159,7 @@ router.post('/api-key/ip', (req: JWTRequest, res: Response, next: NextFunction) 
     const { id: user_id } = req.user;
     const { api_key_id, ip_address } = req.body.data.attributes;
 
-    return userCtrl.addIpAddressToApiKeyWhitelist(user_id, api_key_id, ip_address)
+    return productCtrl.addIpAddressToApiKeyWhitelist(user_id, api_key_id, ip_address)
     .then((ip: IApiKeyIpModel) => {
         res.status(200).json({
             type: 'ip_address',
@@ -172,7 +174,7 @@ router.delete('/api-key/ip', (req: JWTRequest, res: Response, next: NextFunction
     const { id: user_id } = req.user;
     const { api_key_id, ip_address, } = req.body.data.attributes;
 
-    return userCtrl.removeIpAddressForApiKeyWhitelist(user_id, api_key_id, ip_address)
+    return productCtrl.removeIpAddressForApiKeyWhitelist(user_id, api_key_id, ip_address)
     .then((ip: IApiKeyIpModel) => {
         res.status(200).json({
             type: 'ip_address',

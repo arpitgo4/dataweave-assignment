@@ -5,22 +5,23 @@ import request, { Request, Response } from 'request';
 import Sequelize from 'sequelize';
 
 import {
-    User,
-    Address,
-    User_Address,
-    Api_Key,
-    sequelize,
-    Ip_Api_Key,
+    Product,
 } from '../models';
-import { IUserModel, IAddressModel, IUser_AddressModel, IApiKeyModel, IApiKeyIpModel } from 'Models';
+
+import { IProductModel, } from 'Models';
 
 import * as utils from '../utils/utils';
 
-const [ request_get, request_post, request_put ] = [
-    promisify(request.get),
-    promisify(request.post),
-    promisify(request.put)
-];
+
+export const getAllProducts = (offset: number, limit: number): Promise<Array<IProductModel>> => {
+    return Product.findAll({ offset, limit })
+    .then((products: Array<IProductModel>) => {
+        if (!products)
+            return [];
+
+        return products;
+    });
+};
 
 
 export const findUser = (email: string): Promise<IUserModel> => {
