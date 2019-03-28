@@ -1,0 +1,34 @@
+
+/**
+ * Gloabal scss file
+ */
+
+html, body, #react-app {
+	height: 100%;
+	font-family: 'Roboto', sans-serif;
+}
+
+.full-height {
+	height: 100vh;
+}
+
+.container-fluid {
+	margin-left: -15px;
+	margin-right: -15px;
+}
+
+.btn-side-margin {
+	margin: 0 10px;
+}
+
+
+//Datatable global styles.
+tr:hover {
+	cursor: pointer;
+}
+
+td {
+    max-width: 100px;
+	overflow-wrap: break-word;
+	word-wrap: break-word;
+}

@@ -1,0 +1,61 @@
+
+
+version: "3"
+
+services:
+  mysql:
+    container_name: dataweave-mysql
+    build: ../../db
+    restart: unless-stopped
+    ports: 
+      - 3306:3306
+      - 33060:33060
+    volumes:
+      - ../../db/datadir:/var/lib/mysql
+    environment:
+      - MYSQL_ROOT_PASSWORD=root
+      - MYSQL_DATABASE=dataweave_india
+
+  client:
+    container_name: dataweave-client
+    image: arpitgo4/alpine-node
+    restart: unless-stopped
+    working_dir: /usr/src/app
+    volumes:
+      - ../../client:/usr/src/app
+    command: sh -c "npm install && npm start"
+    expose: 
+      - 4200
+    depends_on:
+      - server
+      - api_gateway
+    environment:
+      - API_GATEWAY=localhost
+    
+  server: 
+    container_name: dataweave-server
+    image: arpitgo4/alpine-node
+    restart: unless-stopped
+    working_dir: /usr/src/app
+    volumes:
+      - ../../server:/usr/src/app
+    command: sh -c "npm install && npm run start:development"
+    expose:
+      - 8080
+    depends_on:
+      - mysql
+      - api_gateway
+    environment:
+      - SERVER_PORT=8080
+      - NODE_ENV=development
+      - MYSQL_HOST=mysql:3306
+      - MYSQL_ROOT_PASSWORD=root
+      - MYSQL_DATABASE=dataweave_india
+      - API_GATEWAY=localhost
+
+  api_gateway:
+    container_name: dataweave-api-gateway
+    build: ../../api-gateway
+    restart: unless-stopped
+    ports:
+      - 80:80

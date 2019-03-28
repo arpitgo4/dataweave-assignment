@@ -1,0 +1,57 @@
+
+
+version: "3"
+
+services:
+  mysql:
+    container_name: dataweave-mysql
+    build: ./db
+    restart: unless-stopped
+    ports: 
+      - 3306:3306
+      - 33060:33060
+    volumes:
+      - ./db/datadir:/var/lib/mysql
+    environment:
+      - MYSQL_ROOT_PASSWORD=root
+      - MYSQL_DATABASE=dataweave_india
+
+  client:
+    container_name: dataweave-client
+    restart: unless-stopped
+    build: ../../client
+    expose: 
+      - 4200
+    depends_on:
+      - server
+      - api_gateway
+    environment:
+      - API_GATEWAY=localhost
+    
+  server: 
+    container_name: dataweave-server
+    build: ../../server
+    restart: unless-stopped
+    expose:
+      - 8080
+    depends_on:
+      - mysql
+      - api_gateway
+    environment:
+      - SERVER_PORT=8080
+      - NODE_ENV=development
+      - MYSQL_HOST=mysql:3306
+      - MYSQL_ROOT_PASSWORD=root
+      - MYSQL_DATABASE=dataweave_india
+      - SENDGRID_API_KEY=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
+      - JWT_SECRET=U5ZnTwt0tpmUHAVhES51iXM52mFSbxsOojFs5JNnZUv082ZACjnsuRNklomA
+      - JWT_HEADER=x-token
+      - API_GATEWAY=localhost
+      - AUTH=47eefeb7-359b-11e9-8806-0200cd936042
+
+  api_gateway:
+    container_name: dataweave-api-gateway
+    build: ./api-gateway
+    restart: unless-stopped
+    ports:
+      - 80:80
