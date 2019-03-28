@@ -13,8 +13,30 @@ import { IProductModel, } from 'Models';
 import * as utils from '../utils/utils';
 
 
-export const getAllProducts = (offset: number, limit: number): Promise<Array<IProductModel>> => {
-    return Product.findAll({ offset, limit })
+export const getAllProducts = (offset: number, limit: number, title?: string, sku?: string, category?: string,
+            brand?: string, source?: string, subcategory?: string): Promise<Array<IProductModel>> => {
+
+    if (!limit)
+            return Promise.reject({ message: `provide limit value to fetch product dataset` });
+
+    const query: any = { where: {}, offset, limit };
+
+    if (title)
+        query.where.title = { [Sequelize.Op.like]: `${title}` };
+    if (sku)
+        query.where.sku = { [Sequelize.Op.like]: `${sku}` };
+    if (category)
+        query.where.category = category;
+    if (brand)
+        query.where.brand = brand;
+    if (source)
+        query.where.source = source;
+    if (subcategory)
+        query.where.subcategory = subcategory;
+
+    console.log('query', query);
+
+    return Product.findAll(query)
     .then((products: Array<IProductModel>) => {
         if (!products)
             return [];

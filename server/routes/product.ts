@@ -11,9 +11,9 @@ const router = Router();
 
 
 router.get('/', (req: JWTRequest, res: Response, next: NextFunction) => {
-    const { offset, limit, } = req.query;
+    const { title, sku, category, brand, source, subcategory, offset, limit, } = req.query;
 
-    productCtrl.getAllProducts(Number(offset), Number(limit))
+    productCtrl.getAllProducts(Number(offset), Number(limit), title, sku, category, brand, source, subcategory)
     .then((products: Array<IProductModel>) => {
         res.status(200).json({
             data: products.map(product => {
