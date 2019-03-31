@@ -5,10 +5,12 @@ import { reducer as notifications } from 'react-notification-system-redux';
 import initialState from '../config/initialState.config';
 
 import { productReducer } from './product';
+import { miscReducer } from './miscReducer';
 
 
 const appReducer = combineReducers({
 	products: productReducer,
+	misc: miscReducer,
 	notifications,
 });
 

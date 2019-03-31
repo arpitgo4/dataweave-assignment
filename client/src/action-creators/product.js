@@ -15,13 +15,20 @@ export const getProducts = (offset = 0, limit = DEFAULT_PAGE_SIZE, title, sku, c
         return fetch(api.url, { method: api.type })
         .then(utils.errorHandler)
         .then(resJson => {
-            const { data } = resJson;
+            const { data, meta, } = resJson;
             console.log(data);
 
             dispatch({
                 type: `SAVE_PRODUCTS`,
                 payload: { 
                     products: data.map(d => d.attributes)
+                }
+            });
+
+            dispatch({
+                type: `SAVE_TOTAL_PRODUCT_COUNTER`,
+                payload: {
+                    total_product_count: meta.total_product_count,
                 }
             });
 
