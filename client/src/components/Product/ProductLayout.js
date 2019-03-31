@@ -17,19 +17,21 @@ class ProductLayout extends Component {
 
         return (
             <div>
-                <h4>Products</h4>
+                <h1>Products</h1>
 
-                <div>
+                <div style={{  }}>
                     {products.map(p => (
-                        <ProductTileUI product={p} />
+                        <ProductTileUI product={p} key={p.urlh} />
                     ))}
                 </div>
 
 
-                <Pagination  
-                    onChange={this.onChange.bind(this)}
-                    defaultCurrent={1} 
-                    total={total_product_count} />
+                <div style={{ display: 'inline-block', position: 'relative', left: '40%', margin: '40px auto', }}>
+                    <Pagination
+                        onChange={this.onChange.bind(this)}
+                        defaultCurrent={1} 
+                        total={total_product_count} />
+                </div>
             </div>
         );
     }
