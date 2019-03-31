@@ -7,8 +7,7 @@ import CSSModules from 'react-css-modules';
 
 import HeaderUI from '../Header/Header';
 import styles from './App.style.css';
-
-import { productActionCreators, } from '../../action-creators/index.action-creator';
+import ProductLayout from '../Product/ProductLayout';
 
 import { Layout, Icon, } from 'antd';
 
@@ -21,23 +20,15 @@ class App extends Component {
     }
 
     render() {
-        const { children, products, } = this.props;
+        const {} = this.props;
         
         return (
             <Layout>
                 <HeaderUI />
                 <Content style={{ margin: '24px 16px', padding: 24, background: '#fff', minHeight: 280 }}>
-                    <div style={{ marginRight: 20 }}
-                        styleName="logout-wrapper"
-                        onClick={this.logoutHandler.bind(this)}
-                        className="pull-right" >
-                        <Icon type="logout" />
-                        <span>
-                            {'  '} Logout
-                        </span>
-                    </div>
-
-                    {children}
+                    
+                    <ProductLayout />
+                    
                 </Content>
             </Layout>
         );
@@ -47,25 +38,16 @@ class App extends Component {
        
     }
 
-    componentDidMount() {
-        const { getProducts, } = this.props;
-
-        getProducts();
-    }
-
 };
 
-const mapStateToProps = ({ products, }, ownProps) => {
+const mapStateToProps = ({}, ownProps) => {
     return {
-        products,
+        
     };
 };
 
 const mapDispatchToProps = (dispatch) => {
-    const { getProducts, } = productActionCreators;
-
     return bindActionCreators({
-        getProducts,
     }, dispatch);
 };
 
