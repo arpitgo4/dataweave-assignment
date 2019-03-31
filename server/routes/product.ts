@@ -26,7 +26,7 @@ router.get('/', (req: JWTRequest, res: Response, next: NextFunction) => {
                 };
             }),
             meta: {
-                product_count: count
+                total_product_count: count
             },
         });
     })
