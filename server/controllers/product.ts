@@ -46,11 +46,12 @@ export const getAllProducts = (offset: number, limit: number, title?: string, sk
 
     console.log('[GET /product] query:', query);
 
-    return Product.findAll(query)
-    .then((products: Array<IProductModel>) => {
+    return Product.findAndCountAll(query)
+    .then((result: any) => {
+        const { rows: products, count, } = result;
         if (!products)
-            return [];
+            return { products: [], count: 0 };
 
-        return products;
+        return { products, count };
     });
 };
