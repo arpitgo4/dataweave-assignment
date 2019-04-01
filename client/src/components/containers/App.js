@@ -38,8 +38,6 @@ class App extends Component {
     render() {
         const { total_product_count, products, } = this.props;
        
-        // filter => category, brand, source, subcategory, price_range, stock_status
-
         return (
             <Layout>
                 <Sider width={300} style={{ margin: '24px 0', marginLeft: 12, padding: 24, background: '#fff' }}>

@@ -3,7 +3,7 @@
   "version": "0.1.0",
   "private": true,
   "scripts": {
-    "start": "cross-env npm run build:production && NODE_ENV=production PORT=81 node ./server.js",
+    "start": "cross-env npm run build:production && NODE_ENV=production PORT=3000 node ./server.js",
     "start:development": "cross-env NODE_ENV=development node ./devServer.js",
     "build:production": "cross-env NODE_ENV=production webpack --config webpack.config.js -p --progress --color"
   },
