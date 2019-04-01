@@ -35,6 +35,7 @@ class ProductApiFactory extends ApiFactory {
 
     API_TABLE = {
         GET_PRODUCTS: { url: `/`, type: 'GET' },
+        GET_DISTINCT_OPTIONS: { url: `/options`, type: 'GET' },
     }
 }
 

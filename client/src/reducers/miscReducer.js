@@ -10,6 +10,13 @@ export const miscReducer = (state = {}, action) => {
             };
         };
 
+        case 'SAVE_DISTINCT_OPTIONS': {
+            return {
+                ...state,
+                [action.payload.col_name]: action.payload.distinct_options,
+            };
+        }
+
         default: return state;
     }
 };

@@ -6,6 +6,10 @@ const initialState = {
 	products: [],
 	misc: {
 		total_product_count: 0,
+		brand: [],
+		category: [],
+		subcategory: [],
+		source: [],
 	},
 	notifications: [],				// react-redux-notifications component
 };
