@@ -55,3 +55,10 @@ export const getAllProducts = (offset: number, limit: number, title?: string, sk
         return { products, count };
     });
 };
+
+
+export const getDistincOptions = (key: string) => {
+    return Product.findAll({
+        attributes: [[ Sequelize.fn('DISTINCT', Sequelize.col(key)), key ]],
+    });
+};

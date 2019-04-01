@@ -34,4 +34,23 @@ router.get('/', (req: JWTRequest, res: Response, next: NextFunction) => {
 });
 
 
+router.get('/options', (req: JWTRequest, res: Response, next: NextFunction) => {
+    const { key, } = req.query;
+
+
+    productCtrl.getDistincOptions(key)
+    .then((distinct_values: Array<string>) => {
+        res.status(200).json({
+            data: distinct_values.map(v => {
+                return {
+                    type: key,
+                    attributes: v,
+                };
+            })
+        });
+    })
+    .catch((err: CustomError) => next(err));
+});
+
+
 export default router;
