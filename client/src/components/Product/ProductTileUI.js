@@ -9,15 +9,18 @@ const ProductTileUI = ({
 }) => (
     <div style={{ display: "inline-block",  margin: 15, }}>
 
-        <div id="container" style={{ border: '1px solid grey', width: 300, padding: 20, height: 600, overflow: 'auto' }}>
+        <div id="container" style={{ border: '1px solid grey', width: 300, padding: 20, height: 720, overflow: 'hidden' }}>
             <div id="head-image">
                 <img src={PRODUCT_PLACEHOLDER_IMG} />
             </div>
 
             <div id="content-body" style={{ fontWeight: 'bolder' }}>
                 <p>{product.title}</p>
+                <p>SKU: {product.sku}</p>
                 <p>Brand: {product.brand}</p>
-                <p>Seller: {product.source}</p>
+                <p>Category: {product.category}</p>
+                <p>Sub-Category: {product.subcategory}</p>
+                <p>Source: {product.source}</p>
                 <p>MRP: {product.mrp}</p>
                 <p>Discount: {product.discount}</p>
                 <p>Available Price: {product.available_price}</p>
