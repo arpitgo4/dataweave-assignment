@@ -1,7 +1,7 @@
 
 
-# ECommerce App
-ECommerce app with api server in node.js, mysql as db and web client in react.js.
+# Product Listing App
+Product Listing App with api server in node.js, mysql as db and web client in react.js.
 
 ## Project Structure
 ```
